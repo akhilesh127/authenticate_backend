@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose= require('mongoose');
+const port = process.env.PORT || 4000
 require('dotenv').config();
+
 
 mongoose.connect("mongodb://localhost:27017/authenticate", )
 .then(() => {
@@ -60,7 +62,7 @@ app.get("/",(req, res) => {
             .catch(() => res.status(400).json({ error: "user already exists" }));
 
     });
-    app.post("/login", (req, res) => {
+    app.post("/login", async (req, res) => {
         const { email, password } = req.body;
         User.findOne({ email, password })
             .then(user => {
@@ -70,7 +72,7 @@ app.get("/",(req, res) => {
                     res.status(401).json({ message: "Invalid email or password" });
                 }
             })
-            .catch(e => {
+            .catch(e =>  {
                 console.error(e);
                 res.status(500).json({ message: "Error during login" });
             });
