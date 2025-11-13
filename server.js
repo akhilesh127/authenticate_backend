@@ -1,10 +1,17 @@
-const express = require('express');
-const mongoose= require('mongoose');
-const port = process.env.PORT || 4000
-require('dotenv').config();
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import cors from 'cors';
+
+const app = express();
+dotenv.config();
+app.use(cors())
+app.use(express.json());
 
 
-mongoose.connect("mongodb://localhost:27017/authenticate", )
+
+
+mongoose.connect(process.env.MONGO_URL)
 .then(() => {
     console.log("Connected to MongoDB")
 })
@@ -37,10 +44,8 @@ const userSchema =  mongoose.Schema({
 const User = mongoose.model("User", userSchema)
 
 
-const app = express();
-const cors=require("cors")
-app.use(cors())
-app.use(express.json());
+
+
 
 app.get("/",(req, res) => {
     res.send("Home Page")
